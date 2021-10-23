@@ -1,0 +1,132 @@
+.grammar-textarea {
+  resize: none;
+  background: #ffffff;
+  position: relative;
+  border-radius: 6px;
+  margin: 10px 15px;
+  padding: 10px 15px;
+  width: 100%;
+  border-color: #ffffff;
+
+  font-family: Source Sans Pro;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 23px;
+  line-height: 30px;
+}
+
+.grammar-textarea:before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.grammar-textarea:focus {
+  color: none;
+  background-color: none;
+  border-color: white;
+  outline: none;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  filter: drop-shadow(0 0 20px #b9d4fd);
+}
+
+.checker {
+  width: 75%;
+  flex-shrink: 0;
+}
+
+.issues {
+  background: #ffffff;
+  position: relative;
+  z-index: 5;
+  border-radius: 6px;
+  width: 25%;
+  margin: 10px 15px 10px 22px;
+  padding: 10px 15px;
+  height: 502px;
+  border-color: #ffffff;
+  flex-shrink: 0;
+  /* overflow: scroll; */
+}
+
+.issues:before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.button-extension {
+  width: 525px;
+  height: 35px;
+  margin-left: auto;
+  overflow: auto;
+
+  font-family: Source Sans Pro;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 24px;
+  line-height: 0px;
+
+  color: #ffffff;
+}
+
+.button-backlink {
+  width: 250px;
+  height: 35px;
+  margin: 0px 0px 0px auto;
+
+  font-family: Source Sans Pro;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 24px;
+  line-height: 0px;
+
+  color: #ffffff;
+}
+
+.buttons {
+  display: flex;
+}
+
+.text {
+  display: flex;
+}
+
+.issue-label {
+  font-family: Source Sans Pro;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 36px;
+  line-height: 45px;
+
+  color: #17d7a1;
+}
+
+.amt-issue-label {
+  margin-left: auto;
+  font-family: Source Sans Pro;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 36px;
+  line-height: 45px;
+  text-align: right;
+
+  color: #000000;
+}
+
+.break {
+  flex-basis: 100%;
+  height: 0;
+}

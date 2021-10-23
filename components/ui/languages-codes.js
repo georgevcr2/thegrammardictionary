@@ -1,0 +1,237 @@
+const languages = [{
+  code: "ar",
+  flag: "🇸🇦",
+  longCode: "ar",
+  name: "Arabic"
+}, {
+  code: "ast",
+  flag: "",
+  longCode: "ast-ES",
+  name: "Asturian"
+}, {
+  code: "be",
+  flag: "🇧🇾",
+  longCode: "be-BY",
+  name: "Belarusian"
+}, {
+  code: "br",
+  flag: "🇫🇷",
+  longCode: "br-FR",
+  name: "Breton"
+}, {
+  code: "---",
+  name: "break"
+}, {
+  code: "ca",
+  flag: "",
+  longCode: "ca-ES",
+  name: "Catalan"
+}, {
+  code: "ca",
+  flag: "",
+  longCode: "ca-ES-valencia",
+  name: "Catalan (Valencian)"
+}, {
+  code: "---",
+  name: "break"
+}, {
+  code: "zh",
+  flag: "🇨🇳",
+  longCode: "zh-CN",
+  name: "Chinese"
+}, {
+  code: "da",
+  flag: "🇩🇰",
+  longCode: "da-DK",
+  name: "Danish"
+}, {
+  code: "nl",
+  flag: "🇳🇱",
+  longCode: "nl",
+  name: "Dutch"
+}, {
+  code: "---",
+  name: "break"
+}, {
+  code: "en",
+  flag: "🇦🇺",
+  longCode: "en-AU",
+  name: "English (Australian)"
+}, {
+  code: "en",
+  flag: "🇨🇦",
+  longCode: "en-CA",
+  name: "English (Canadian)"
+}, {
+  code: "en",
+  flag: "🇬🇧",
+  longCode: "en-GB",
+  name: "English (GB)"
+}, {
+  code: "en",
+  flag: "🇳🇿",
+  longCode: "en-NZ",
+  name: "English (New Zealand)"
+}, {
+  code: "en",
+  flag: "🇿🇦",
+  longCode: "en-ZA",
+  name: "English (South African)"
+}, {
+  code: "en",
+  flag: "🇺🇸",
+  longCode: "en-US",
+  name: "English (US)"
+}, {
+  code: "---",
+  name: "break"
+}, {
+  code: "eo",
+  flag: "",
+  longCode: "eo",
+  name: "Esperanto"
+}, {
+  code: "fr",
+  flag: "🇫🇷",
+  longCode: "fr",
+  name: "French"
+}, {
+  code: "gl",
+  flag: "",
+  longCode: "gl-ES",
+  name: "Galician"
+}, {
+  code: "---",
+  name: "break"
+},  {
+  code: "de",
+  flag: "🇦🇹",
+  longCode: "de-AT",
+  name: "German (Austria)"
+}, {
+  code: "de",
+  flag: "🇩🇪",
+  longCode: "de-DE",
+  name: "German (Germany)"
+}, {
+  code: "de",
+  flag: "🇨🇭",
+  longCode: "de-CH",
+  name: "German (Swiss)"
+}, {
+  code: "---",
+  name: "break"
+}, {
+  code: "el",
+  flag: "🇬🇷",
+  longCode: "el-GR",
+  name: "Greek"
+}, {
+  code: "ga",
+  flag: "🇮🇪",
+  longCode: "ga-IE",
+  name: "Irish"
+}, {
+  code: "it",
+  flag: "🇮🇹",
+  longCode: "it",
+  name: "Italian"
+}, {
+  code: "ja",
+  flag: "🇯🇵",
+  longCode: "ja-JP",
+  name: "Japanese"
+}, {
+  code: "km",
+  flag: "🇰🇭",
+  longCode: "km-KH",
+  name: "Khmer"
+}, {
+  code: "nb",
+  flag: "🇳🇴",
+  longCode: "nb",
+  name: "Norwegian (Bokmål)"
+}, {
+  code: "fa",
+  flag: "🇮🇷",
+  longCode: "fa",
+  name: "Persian"
+}, {
+  code: "pl",
+  flag: "🇵🇱",
+  longCode: "pl-PL",
+  name: "Polish"
+}, {
+  code: "---",
+  name: "break"
+}, {
+  code: "pt",
+  flag: "🇦🇴",
+  longCode: "pt-AO",
+  name: "Portuguese (Angola)"
+}, {
+  code: "pt",
+  flag: "🇧🇷",
+  longCode: "pt-BR",
+  name: "Portuguese (Brazil)"
+}, {
+  code: "pt",
+  flag: "🇲🇿",
+  longCode: "pt-MZ",
+  name: "Portuguese (Moçambique)"
+}, {
+  code: "pt",
+  flag: "🇵🇹",
+  longCode: "pt-PT",
+  name: "Portuguese (Portugal)"
+}, {
+  code: "---",
+  name: "break"
+}, {
+  code: "ro",
+  flag: "🇷🇴",
+  longCode: "ro-RO",
+  name: "Romanian"
+}, {
+  code: "ru",
+  flag: "🇷🇺",
+  longCode: "ru-RU",
+  name: "Russian"
+},  {
+  code: "sk",
+  flag: "🇸🇰",
+  longCode: "sk-SK",
+  name: "Slovak"
+}, {
+  code: "sl",
+  flag: "🇸🇮",
+  longCode: "sl-SI",
+  name: "Slovenian"
+}, {
+  code: "es",
+  flag: "🇪🇸",
+  longCode: "es",
+  name: "Spanish"
+}, {
+  code: "sv",
+  flag: "🇸🇻",
+  longCode: "sv",
+  name: "Swedish"
+}, {
+  code: "tl",
+  flag: "🇵🇭",
+  longCode: "tl-PH",
+  name: "Tagalog"
+}, {
+  code: "ta",
+  flag: "🇮🇳",
+  longCode: "ta-IN",
+  name: "Tamil"
+}, {
+  code: "uk",
+  flag: "🇺🇦",
+  longCode: "uk-UA",
+  name: "Ukrainian"
+}];
+
+export default languages;

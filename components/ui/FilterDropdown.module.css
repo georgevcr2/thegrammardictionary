@@ -1,0 +1,22 @@
+.dropdown {
+  width: 283px;
+  height: 35px;
+
+  background: #ffffff;
+  border: 0.5px solid #d1d1d1;
+  box-sizing: border-box;
+  border-radius: 4px;
+
+  text-align: left;
+  font-family: Source Sans Pro;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 24px;
+  line-height: 30px;
+
+  color: #000000;
+}
+
+.dropdown:hover {
+  cursor: pointer;
+}
