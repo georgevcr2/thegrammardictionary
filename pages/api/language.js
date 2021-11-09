@@ -14,6 +14,7 @@ async function handler(req, res) {
           disabledRules: "WHITESPACE_RULE,FRENCH_WHITESPACE",
           allowIncompleteResults: "true",
           enableHiddenRules: "true",
+          level: "picky",
           text: reqData.text,
           language: reqData.language,
         },
@@ -43,7 +44,7 @@ const handleGrammaticalMistakes = (matches) => {
   let data = { issueAmount: matches.length };
   let issues = [];
   //console.log("in GM function ", matches);
-  matches.forEach((issue) => {
+  matches.forEach((issue) => { //change this to map
     issues.push({
       id: uniqid(),
       title: issue.rule.category.name,

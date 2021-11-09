@@ -1,0 +1,49 @@
+.issues {
+  background: #ffffff;
+  position: relative;
+  z-index: 5;
+  border-radius: 6px;
+  width: 25%;
+  margin: 10px 15px 10px 22px;
+  padding: 10px 15px;
+  height: 502px;
+  border-color: #ffffff;
+  flex-shrink: 0;
+  /* overflow: scroll; */
+}
+
+.issues:before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.text {
+  display: flex;
+}
+
+.issue-label {
+  font-family: Source Sans Pro;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 36px;
+  line-height: 45px;
+
+  color: #d717bd;
+}
+
+.amt-issue-label {
+  visibility: visible !important;
+  margin-left: auto;
+  font-family: Source Sans Pro;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 36px;
+  line-height: 45px;
+  text-align: right;
+
+  color: #000000;
+}
