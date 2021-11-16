@@ -8,29 +8,17 @@ const FilterDropdown = (props) => {
   const generateLanguages = () => {
     const langaugesArr = [];
     let count = 0;
-    allLanguages.forEach((ele) => {
+    return allLanguages.map((ele) => {
       if (ele.code === "---")
-        langaugesArr.push(
-          <optgroup label="---" key={"opt-" + count}></optgroup>
-        );
+        return <optgroup label="---" key={"opt-" + ele.key}></optgroup>;
       else {
-        if (ele.longCode === "en-US") {
-          langaugesArr.push(
-            <option defaultValue value={ele.longCode} key={count}>
-              {ele.name}
-            </option>
-          );
-        } else {
-          langaugesArr.push(
-            <option value={ele.longCode} key={count}>
-              {ele.name}
-            </option>
-          );
-        }
+        return (
+          <option value={ele.longCode} key={ele.longCode}>
+            {ele.name}
+          </option>
+        );
       }
-      count++;
     });
-    return langaugesArr;
   };
 
   const onChangeSelectHandler = (e) => {
@@ -43,6 +31,7 @@ const FilterDropdown = (props) => {
         name="language"
         onChange={onChangeSelectHandler}
         className={classes.dropdown}
+        value="en-US"
       >
         {generateLanguages()}
       </select>

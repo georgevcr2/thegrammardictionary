@@ -1,168 +1,98 @@
-import React, { useRef, useState, useEffect } from "react";
-import * as Scroll from "react-scroll";
-import { ScrollMenu, VisibilityContext } from "react-horizontal-scrolling-menu";
-import Form from "react-bootstrap/Form";
-import { Editor } from "@tinymce/tinymce-react";
+import React, { useState, useMemo, useCallback } from "react";
+import { createEditor, Descendant } from "slate";
+import { Slate, Editable, withReact } from "slate-react";
+import { withHistory } from "slate-history";
+import useDidMountEffect from "../../hooks/useDidMountEffect";
 import Button from "react-bootstrap/Button";
 import Tooltip from "react-bootstrap/Tooltip";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
+import FilterDropdown from "../ui/FilterDropdown";
+import GrammarIssues from "./issues/GrammarIssues";
+import ErrorElement from "./editorElements/ErrorElement";
+import DefaultElement from "./editorElements/DefaultElement";
 
 import classes from "./GrammarChecker.module.css";
-import FilterDropdown from "../ui/FilterDropdown";
-import GrammarCard from "./issues/GrammarCard";
-import InputTextbox from "./input/InputTextbox";
-import GrammarIssues from "./issues/GrammarIssues";
 
 const GrammarChecker = () => {
-  const firstRenderRef = useRef(true);
   const [textboxText, setTextboxText] = useState("");
-  const [onTextChange, setOnTextChange] = useState(false);
+  const [value, setValue] = useState([
+    {
+      type: "paragraph",
+      children: [{ text: "A line of text in a paragraph." }],
+    },
+  ]);
   const [textLanguage, setTextLanguage] = useState("en-US");
-  const [amtIssues, setAmtIssues] = useState(0);
   const [issues, setIssues] = useState([]);
-  const [textInfo, setTextInfo] = useState({ characters: 0 });
+  const editor = useMemo(() => withReact(createEditor()), []);
 
-  useEffect(() => {
-    console.log("im changing");
-    if (firstRenderRef.current) {
-      firstRenderRef.current = false;
-    } else {
-      console.log("sending request");
-      const data = {
-        text: textboxText,
-        language: textLanguage,
-        rules: {},
-      };
-      //console.log(data);
-      const delayDebounceFn = setTimeout(() => {
-        checkGrammarHandler(data);
+  useDidMountEffect(() => {
+    const data = {
+      text: textboxText,
+      language: textLanguage,
+      rules: {},
+    };
+    try {
+      const delayDebounceFn = setTimeout(async () => {
+        const response = await fetch("/api/language", {
+          method: "POST",
+          body: JSON.stringify(data),
+          header: { "Content-Type": "application/json" },
+        });
+
+        const grammaticalMistakes = await response.json();
+        //console.log("response from api: ", grammaticalMistakes);
+        setIssues(grammaticalMistakes.body.issues);
+        setValue([...grammaticalMistakes.body.text]);
       }, 2500);
 
       return () => clearTimeout(delayDebounceFn);
-    }
-  }, [textboxText]);
-
-  async function checkGrammarHandler(data) {
-    try {
-      const response = await fetch("/api/language", {
-        method: "POST",
-        body: JSON.stringify(data),
-        header: { "Content-Type": "application/json" },
-      });
-
-      const grammaticalMistakes = await response.json();
-      //console.log("response from api: ", grammaticalMistakes);
-      if (response.ok) {
-        setAmtIssues(+grammaticalMistakes.body.issueAmount);
-        setIssues(grammaticalMistakes.body.allIssues);
-        let newJSXString = "";
-        grammaticalMistakes.body.allIssues.forEach((ele, index, arr) => {
-          const nextStart = ele.offset + ele.length;
-          const errorText = textboxText.substring(ele.offset, nextStart);
-          let remainderText = "";
-          if (arr[index + 1] !== undefined) {
-            remainderText = textboxText.substring(
-              nextStart,
-              arr[index + 1].offset
-            );
-          } else {
-            remainderText = textboxText.substring(
-              nextStart,
-              textboxText.length
-            );
-          }
-          newJSXString =
-            newJSXString +
-            `<span class=${classes["initial-error"]}>${errorText}</span>`;
-          if (remainderText !== 0) {
-            newJSXString = newJSXString + remainderText;
-          }
-        });
-        console.log(newJSXString);
-        setTextboxText(newJSXString);
-      } else {
-        //network error
-      }
     } catch (err) {
       //error, not network
     }
-  }
+  }, [textboxText]);
 
-  const removeTags = (str) => {
-    if (str === null || str === "") return false;
-    else str = str.toString();
-    return str.replace(/(<([^>]+)>)/gi, "");
-  };
-
-  const onChangeTextboxText = (text) => {
-    const readingTime = require("reading-time");
-    let stats = readingTime(text);
-    stats = { ...stats, characters: text.replaceAll(" ", "").length };
-    setTextInfo(stats);
-    setTextboxText(removeTags(text));
-    setOnTextChange((prev) => !prev);
+  const handleEditorChange = (evt) => {
+    let text = "";
+    evt.forEach((ele) =>
+      ele.children.forEach((nestEle) => (text += nestEle.text))
+    );
+    console.log(text);
+    if (text !== textboxText) {
+      setTextboxText(text);
+    }
   };
 
   const onChangeSelectHandler = (langCode) => {
     setTextLanguage(langCode);
   };
 
-  const generateGrammarCards = () => {
-    return issues.map((issue, index) => {
-      return (
-        <GrammarCard
-          key={issue.id}
-          title={issue.title}
-          description={issue.description}
-          replacements={issue.replacements}
-        />
-      );
-    });
-  };
-
-  const handleEditorChange = (evt) => {
-    setTextboxText(evt.target.getContent());
-  }
-
-  const editorSetup = (editor) => {
-    //https://www.tiny.cloud/docs-4x/advanced/creating-a-custom-button/
-    function removeAllText() {
-      editor.setContent(<p></p>);
+  const renderElement = useCallback((props) => {
+    switch (props.element.type) {
+      case "error":
+        return <ErrorElement {...props} />;
+      default:
+        return <DefaultElement {...props} />;
     }
+  }, []);
 
-    editor.ui.registry.addButton("removealltext", {
-      icon: "insertdatetime",
-      image:
-        "http://p.yusukekamiyamane.com/icons/search/fugue/icons/calendar-blue.png",
-      tooltip: "Removes all text",
-      text: "Delete",
-      onAction: removeAllText,
-    });
-  };
+  const renderLeaf = useCallback((props) => {
+    console.log("leaf", props);
+    return <Leaf {...props} />;
+  }, []);
 
   return (
     <div>
       <div className={classes.container}>
-        <Editor
-          initialValue=""
-          apiKey="06yzfag3nuillnn8xmvcjewhbupow10u5qzbt07utanr21w3"
-          init={{
-            selector: "#tinyeditor",
-            height: 500,
-            menubar: false,
-            branding: false,
-            resize: false,
-            placeholder: "Some placeholder text...",
-            plugins: ["wordcount"],
-            toolbar: "copy removealltext",
-            setup: editorSetup,
-          }}
-          onChange={handleEditorChange}
-        />
-        <GrammarIssues
-          amtIssues={amtIssues.toString()}
-          generateGrammarCards={generateGrammarCards}
-        />
+        <div className={classes["grammar-textarea"]}>
+          <Slate editor={editor} value={value} onChange={handleEditorChange}>
+            <Editable
+              renderElement={renderElement}
+              renderLeaf={renderLeaf}
+              placeholder="Enter some plain text..."
+            />
+          </Slate>
+        </div>
+        <GrammarIssues amtIssues={issues.length} issues={issues} />
       </div>
       <div className={classes.buttons}>
         <FilterDropdown onChangeSelect={onChangeSelectHandler} />
@@ -179,6 +109,17 @@ const GrammarChecker = () => {
         </Button>
       </div>
     </div>
+  );
+};
+
+const Leaf = (props) => {
+  return (
+    <span
+      {...props.attributes}
+      style={{ fontWeight: props.leaf.bold ? "bold" : "normal" }}
+    >
+      {props.children}
+    </span>
   );
 };
 

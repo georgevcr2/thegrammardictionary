@@ -1,4 +1,4 @@
-import uniqid from 'uniqid';
+import uniqid from "uniqid";
 
 async function handler(req, res) {
   //console.log("Inside the api handler function");
@@ -20,13 +20,20 @@ async function handler(req, res) {
         },
       })
       .then((response) => {
-        console.log("axios response: ", response.data.matches);
         const grammaticalMistakes = handleGrammaticalMistakes(
           response.data.matches
         );
+
         return {
           message: "successful!",
-          body: { ...grammaticalMistakes },
+          body: {
+            issues: grammaticalMistakes.allIssues,
+            text: createHTML(
+              response.status,
+              grammaticalMistakes,
+              reqData.text
+            ),
+          },
         };
       })
       .catch((error) => {
@@ -44,7 +51,8 @@ const handleGrammaticalMistakes = (matches) => {
   let data = { issueAmount: matches.length };
   let issues = [];
   //console.log("in GM function ", matches);
-  matches.forEach((issue) => { //change this to map
+  matches.forEach((issue) => {
+    //change this to map
     issues.push({
       id: uniqid(),
       title: issue.rule.category.name,
@@ -56,9 +64,62 @@ const handleGrammaticalMistakes = (matches) => {
       length: issue.length,
     });
   });
-  console.log("axios response: ", issues);
-  data = { ...data, allIssues: issues};
+  //console.log("axios response: ", issues);
+  data = { ...data, allIssues: issues };
   return data;
+};
+
+const createHTML = (status, grammaticalMistakes, originalText) => {
+  if (status == 200) {
+    const grammarIssues = grammaticalMistakes.allIssues;
+    if (grammarIssues.length > 0) {
+      let newJSXString = [
+        {
+          type: "paragraph",
+          children: [
+            { text: originalText.substring(0, grammarIssues[0].offset) },
+          ],
+        },
+      ];
+      grammarIssues.forEach((ele, index, arr) => {
+        const nextStart = ele.offset + ele.length;
+        const errorText = originalText.substring(ele.offset, nextStart);
+        let remainderText = "";
+        if (arr[index + 1] !== undefined) {
+          remainderText = originalText.substring(
+            nextStart,
+            arr[index + 1].offset
+          );
+        } else {
+          remainderText = originalText.substring(
+            nextStart,
+            originalText.length
+          );
+        }
+        newJSXString.push(
+          {
+            type: "error",
+            children: [{ text: errorText }],
+          },
+          {
+            type: "paragraph",
+            children: [{ text: remainderText }],
+          }
+        );
+      });
+      console.log(newJSXString);
+      return newJSXString;
+    } else {
+      return [
+        {
+          type: "paragraph",
+          children: [{ text: originalText }],
+        },
+      ];
+    }
+  } else {
+    //network err
+  }
 };
 
 export default handler;

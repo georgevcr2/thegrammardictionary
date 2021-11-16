@@ -37,9 +37,37 @@
   display: flex;
 }
 
-.initial-error {
-  background-color: #f2758140;
-  border-bottom: solid 2px red;
-  border-top-right-radius: 1.5px;
-  border-top-left-radius: 1.5px;
+.grammar-textarea {
+  height: 502px;
+
+  resize: none;
+  background: #ffffff;
+  position: relative;
+  border-radius: 6px;
+  margin: 10px 15px;
+  padding: 10px 0px 10px 15px;
+  width: 100%;
+  border-color: #ffffff;
+  border: 1px;
+  caret-color: black;
+
+  word-break: break-word;
+  font-family: Source Sans Pro;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 23px;
+  line-height: 30px;
+}
+
+.grammar-textarea:focus {
+  color: none;
+  background-color: none;
+  border-color: white;
+  outline: none;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+
+.grammar-textarea-placeholder {
+  color: #97a0bf;
 }

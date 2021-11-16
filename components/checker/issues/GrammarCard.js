@@ -30,6 +30,7 @@ const GrammarCard = (props) => {
           scrollContainer.current.scrollLeft += posDiff;
         }
       });
+      
   return (
     <div className={classes.card}>
       <label className={classes["rule-name"]}>{props.title}</label>
@@ -43,7 +44,11 @@ const GrammarCard = (props) => {
         >
           {props.replacements.map((rep, index) => {
             return (
-              <p key={rep.value} className={classes.replacements} onClick={() => console.log(rep.value + " has been clicked")}>
+              <p
+                key={rep.value}
+                className={classes.replacements}
+                onClick={() => console.log(rep.value + " has been clicked")}
+              >
                 {rep.value}
               </p>
             );

@@ -20,6 +20,7 @@ const languages = [{
   name: "Breton"
 }, {
   code: "---",
+  key: "1",
   name: "break"
 }, {
   code: "ca",
@@ -33,6 +34,7 @@ const languages = [{
   name: "Catalan (Valencian)"
 }, {
   code: "---",
+  key: "2",
   name: "break"
 }, {
   code: "zh",
@@ -51,6 +53,7 @@ const languages = [{
   name: "Dutch"
 }, {
   code: "---",
+  key: "3",
   name: "break"
 }, {
   code: "en",
@@ -84,6 +87,7 @@ const languages = [{
   name: "English (US)"
 }, {
   code: "---",
+  key: "4",
   name: "break"
 }, {
   code: "eo",
@@ -102,6 +106,7 @@ const languages = [{
   name: "Galician"
 }, {
   code: "---",
+  key: "5",
   name: "break"
 },  {
   code: "de",
@@ -120,6 +125,7 @@ const languages = [{
   name: "German (Swiss)"
 }, {
   code: "---",
+  key: "6",
   name: "break"
 }, {
   code: "el",
@@ -163,6 +169,7 @@ const languages = [{
   name: "Polish"
 }, {
   code: "---",
+  key: "7",
   name: "break"
 }, {
   code: "pt",
@@ -186,6 +193,7 @@ const languages = [{
   name: "Portuguese (Portugal)"
 }, {
   code: "---",
+  key: "8",
   name: "break"
 }, {
   code: "ro",
