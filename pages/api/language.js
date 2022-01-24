@@ -72,15 +72,11 @@ const handleGrammaticalMistakes = (matches) => {
 const createHTML = (status, grammaticalMistakes, originalText) => {
   if (status == 200) {
     const grammarIssues = grammaticalMistakes.allIssues;
+    let newJSXString = [];
     if (grammarIssues.length > 0) {
-      let newJSXString = [
-        {
-          type: "paragraph",
-          children: [
-            { text: originalText.substring(0, grammarIssues[0].offset) },
-          ],
-        },
-      ];
+      newJSXString.push(
+        { text: originalText.substring(0, grammarIssues[0].offset) },
+      );
       grammarIssues.forEach((ele, index, arr) => {
         const nextStart = ele.offset + ele.length;
         const errorText = originalText.substring(ele.offset, nextStart);
@@ -97,26 +93,20 @@ const createHTML = (status, grammaticalMistakes, originalText) => {
           );
         }
         newJSXString.push(
-          {
-            type: "error",
-            children: [{ text: errorText }],
-          },
-          {
-            type: "paragraph",
-            children: [{ text: remainderText }],
-          }
+          { text: errorText, error: true },
+          { text: remainderText }
         );
       });
-      console.log(newJSXString);
-      return newJSXString;
+      //console.log(newJSXString);
     } else {
-      return [
-        {
-          type: "paragraph",
-          children: [{ text: originalText }],
-        },
-      ];
+      newJSXString.push({ text: originalText })
     }
+    return [
+      {
+        type: "paragraph",
+        children: newJSXString,
+      },
+    ];
   } else {
     //network err
   }

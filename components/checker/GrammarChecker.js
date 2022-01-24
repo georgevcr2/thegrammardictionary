@@ -14,11 +14,11 @@ import DefaultElement from "./editorElements/DefaultElement";
 import classes from "./GrammarChecker.module.css";
 
 const GrammarChecker = () => {
-  const [textboxText, setTextboxText] = useState("");
+  const [textboxText, setTextboxText] = useState("This is editable text area.");
   const [value, setValue] = useState([
     {
       type: "paragraph",
-      children: [{ text: "A line of text in a paragraph." }],
+      children: [{ text: "This is editable text area." }],
     },
   ]);
   const [textLanguage, setTextLanguage] = useState("en-US");
@@ -42,7 +42,7 @@ const GrammarChecker = () => {
         const grammaticalMistakes = await response.json();
         //console.log("response from api: ", grammaticalMistakes);
         setIssues(grammaticalMistakes.body.issues);
-        setValue([...grammaticalMistakes.body.text]);
+        setValue(grammaticalMistakes.body.text);
       }, 2500);
 
       return () => clearTimeout(delayDebounceFn);
@@ -56,7 +56,7 @@ const GrammarChecker = () => {
     evt.forEach((ele) =>
       ele.children.forEach((nestEle) => (text += nestEle.text))
     );
-    console.log(text);
+    console.log(value);
     if (text !== textboxText) {
       setTextboxText(text);
     }
@@ -66,18 +66,18 @@ const GrammarChecker = () => {
     setTextLanguage(langCode);
   };
 
-  const renderElement = useCallback((props) => {
-    switch (props.element.type) {
-      case "error":
-        return <ErrorElement {...props} />;
-      default:
-        return <DefaultElement {...props} />;
-    }
-  }, []);
-
-  const renderLeaf = useCallback((props) => {
-    console.log("leaf", props);
-    return <Leaf {...props} />;
+  const renderLeaf = useCallback(({ attributes, children, leaf }) => {
+    return (
+      <span
+        {...attributes}
+        style={{
+          fontWeight: leaf.error ? "bold" : "normal",
+          fontStyle: leaf.italic ? "italic" : "normal",
+        }}
+      >
+        {children}
+      </span>
+    );
   }, []);
 
   return (
@@ -86,7 +86,6 @@ const GrammarChecker = () => {
         <div className={classes["grammar-textarea"]}>
           <Slate editor={editor} value={value} onChange={handleEditorChange}>
             <Editable
-              renderElement={renderElement}
               renderLeaf={renderLeaf}
               placeholder="Enter some plain text..."
             />
@@ -112,15 +111,12 @@ const GrammarChecker = () => {
   );
 };
 
-const Leaf = (props) => {
-  return (
-    <span
-      {...props.attributes}
-      style={{ fontWeight: props.leaf.bold ? "bold" : "normal" }}
-    >
-      {props.children}
-    </span>
-  );
+const Leaf = ({ attributes, children, leaf }) => {
+  if (leaf.error) {
+    console.log("hello");
+    children = <ErrorElement>{children}</ErrorElement>;
+  }
+  return <span {...attributes}>{children}</span>;
 };
 
 export default GrammarChecker;
