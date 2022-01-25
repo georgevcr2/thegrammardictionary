@@ -1,8 +1,16 @@
+<<<<<<< Updated upstream
 import React, { useState, useMemo, useCallback } from "react";
 import { createEditor, Descendant } from "slate";
 import { Slate, Editable, withReact } from "slate-react";
 import { withHistory } from "slate-history";
 import useDidMountEffect from "../../hooks/useDidMountEffect";
+=======
+import { useRef, useState, useEffect } from "react";
+import * as Scroll from "react-scroll";
+import { ScrollMenu, VisibilityContext } from "react-horizontal-scrolling-menu";
+import { Editor } from "@tinymce/tinymce-react";
+import Form from "react-bootstrap/Form";
+>>>>>>> Stashed changes
 import Button from "react-bootstrap/Button";
 import Tooltip from "react-bootstrap/Tooltip";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
@@ -80,9 +88,17 @@ const GrammarChecker = () => {
     );
   }, []);
 
+  const editorRef = useRef(null);
+   const log = () => {
+     if (editorRef.current) {
+       console.log(editorRef.current.getContent());
+     }
+   };
+
   return (
     <div>
       <div className={classes.container}>
+<<<<<<< Updated upstream
         <div className={classes["grammar-textarea"]}>
           <Slate editor={editor} value={value} onChange={handleEditorChange}>
             <Editable
@@ -90,6 +106,31 @@ const GrammarChecker = () => {
               placeholder="Enter some plain text..."
             />
           </Slate>
+=======
+        <div className={classes.checker}>
+          <Editor
+            apiKey="06yzfag3nuillnn8xmvcjewhbupow10u5qzbt07utanr21w3"
+            id="CREATE AN ID"
+            onInit={(evt, editor) => (editorRef.current = editor)}
+            initialValue="<p>This is the initial content of the editor.</p>"
+            init={{
+              height: 500,
+              menubar: false,
+              toolbar:
+                "copy remove",
+              content_style:
+                "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
+              branding: false,
+            }}
+          />
+        </div>
+        <div className={classes.issues}>
+          <div className={classes.text}>
+            <label className={classes["issue-label"]}>Issues</label>
+            <p className={classes["amt-issue-label"]}>{amtIssues.toString()}</p>
+          </div>
+          {generateGrammarCards()}
+>>>>>>> Stashed changes
         </div>
         <GrammarIssues amtIssues={issues.length} issues={issues} />
       </div>
