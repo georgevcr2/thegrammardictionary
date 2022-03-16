@@ -1,4 +1,4 @@
-import GrammarChecker from "../components/checker/GrammarChecker";
+//import GrammarChecker from "../components/checker/GrammarChecker";
 import classes from "../styles/Home.module.css";
 
 export default function Home() {
@@ -9,7 +9,6 @@ export default function Home() {
         Get multilingual grammar, style, and spell checker feedback on your
         writing
       </h2>
-      <GrammarChecker />
     </div>
   );
 }

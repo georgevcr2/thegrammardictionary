@@ -17,7 +17,6 @@ a {
   box-sizing: border-box;
 }
 
-<<<<<<< Updated upstream
 .react-horizontal-scrolling-menu--scroll-container::-webkit-scrollbar {
   display: none;
   cursor: default;
@@ -45,13 +44,4 @@ div[contenteditable="true"] {
 
 div[contenteditable="true"]:focus {
   outline: none;
-=======
-.tox.tox-tinymce {
-  border: none;
-  border-radius: 5px;
-}
-
-.tox-statusbar__resize-handle {
-  visibility: hidden;
->>>>>>> Stashed changes
 }
